@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --crt-curve: 1.6%;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(ellipse at center, #0e0e16 0%, #050507 60%, #000 100%);
+  color: theme('colors.vhs-paper');
+  font-family: theme('fontFamily.action');
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+@layer components {
+  .neon-text {
+    text-shadow:
+      0 0 6px currentColor,
+      0 0 14px currentColor,
+      0 0 30px rgba(255, 255, 255, 0.25);
+  }
+
+  .chromatic {
+    position: relative;
+    display: inline-block;
+  }
+  .chromatic::before,
+  .chromatic::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  .chromatic::before {
+    color: #ff1f3d;
+    transform: translate(2px, 0);
+  }
+  .chromatic::after {
+    color: #00ffd1;
+    transform: translate(-2px, 0);
+  }
+
+  .vhs-frame {
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(20, 20, 30, 0.85), rgba(8, 8, 14, 0.9));
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      inset 0 0 80px rgba(0, 0, 0, 0.9),
+      inset 0 0 4px rgba(0, 255, 209, 0.25),
+      0 0 30px rgba(0, 0, 0, 0.8);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .vhs-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.04) 0px,
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    pointer-events: none;
+    z-index: 2;
+  }
+  .vhs-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .glitch-clip {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 12%,
+      98% 12%,
+      98% 30%,
+      100% 30%,
+      100% 100%,
+      0 100%,
+      0 70%,
+      2% 70%,
+      2% 40%,
+      0 40%
+    );
+  }
+
+  .cat-chip {
+    @apply relative font-action uppercase tracking-widest text-sm md:text-base
+      px-3 md:px-4 py-2 rounded-md border border-vhs-paper/20
+      bg-black/40 text-vhs-paper/80
+      transition-all duration-150 will-change-transform
+      hover:border-neon-cyan/80 hover:text-neon-cyan hover:shadow-neon-cyan;
+  }
+  .cat-chip[data-active='true'] {
+    @apply border-neon-cyan text-neon-cyan shadow-neon-cyan;
+  }
+
+  .vcr-counter {
+    font-family: theme('fontFamily.hud');
+    color: theme('colors.neon-amber');
+    text-shadow: 0 0 8px rgba(255, 182, 39, 0.7);
+    letter-spacing: 0.15em;
+  }
+}
+
+/* Custom CRT curvature via subtle filter on the joke screen */
+.crt-curve {
+  filter: contrast(1.08) saturate(1.1);
+}
+
+/* Crosshair cursor variant for interactive elements */
+button,
+[role='button'] {
+  cursor: crosshair;
+}
+
+/* Scrollbars hidden — the site is single-screen */
+::-webkit-scrollbar {
+  display: none;
+}

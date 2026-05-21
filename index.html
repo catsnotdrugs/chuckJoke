@@ -1,66 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8 ">
-    <title>Chuck Norris Jokes</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="app.js"></script>
-</head>
-<body>
-<div id="main-body">
-    <img id="logo" src="assets/chuck_norris.png" alt="Chuck Norris Silhouette ">
-    <div id="data"></div>
-    <button id="get-joke" onClick="getJoke()">CHUCK FACT</button>
-    <div id="button-row">
-        <button class="button" onClick="animal()">Animal</button>
-        <button class="button" onClick="career()">Career</button>
-        <button class="button" onClick="celebrity()">Celebrity</button>
-        <button class="button" onClick="dev()">Dev</button>
-        <button class="button" onClick="explicit()">Explicit</button>
-        <button class="button" onClick="fashion()">Fashion</button>
-        <button class="button" onClick="food()">Food</button>
-        <button class="button" onClick="history()">History</button>
-        <button class="button" onClick="money()">Money</button>
-        <button class="button" onClick="movie()">Movie</button>
-        <button class="button" onClick="music()">Music</button>
-        <button class="button" onClick="political()">Political</button>
-        <button class="button" onClick="religion()">Religion</button>
-        <button class="button" onClick="science()">Science</button>
-        <button class="button" onClick="sport()">Sport</button>
-        <button class="button" onClick="travel()">Travel</button>
-    </div>
-</div>
-</body>
-<script>
-
-
-    // function randomFact() {
-    //     // We call the Web Service via AJAX
-    //     var xmlhttp = new XMLHttpRequest();
-    //     var url = "https://api.chucknorris.io/jokes/random?category=${category}";
-    //     xmlhttp.onreadystatechange = function () {
-    //         if (this.readyState == 4 && this.status == 200) {
-    //             var json = JSON.parse(this.responseText);
-    //             // We parse the JSON response
-    //             parseJson(json);
-    //         }
-    //     };
-    //
-    //     xmlhttp.open("GET", url, true);
-    //     xmlhttp.send();
-    // }
-    //
-    // function parseJson(json) {
-    //     var fact = "<b>" + json["value"] + "</b>";
-    //     document.getElementById("data").innerHTML = fact;
-    // }
-    //
-    // // Finally we add a click event listener on the logo of Chuck Norris
-    // // to load a new random fact when the user will click on it
-    // document.getElementById("logo").addEventListener("click", function () {
-    //     randomFact();
-    // });
-    //
-    // randomFact();
-</script>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/chuck/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="description" content="Chuck Norris facts, broadcast straight from the VHS era." />
+    <title>CHUCK NORRIS // FACTS NOT JOKES</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Rubik+Mono+One&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-vhs-black">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
