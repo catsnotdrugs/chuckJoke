@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 /**
  * Synthesizes 80s-action SFX in the browser via the Web Audio API.
@@ -128,5 +128,71 @@ export function useSfx(muted: boolean) {
     osc.stop(now + 0.08);
   }, [ensureCtx]);
 
-  return { playPunch, playWhoosh, playStatic, playClick };
+  /** NES textbox blip — short square pulse, used per-character */
+  const playBlip = useCallback(() => {
+    if (mutedRef.current) return;
+    const ctx = ensureCtx();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'square';
+    osc.frequency.value = 1320;
+    gain.gain.setValueAtTime(0.05, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.02);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.025);
+  }, [ensureCtx]);
+
+  /** Two-tone coin insert */
+  const playCoin = useCallback(() => {
+    if (mutedRef.current) return;
+    const ctx = ensureCtx();
+    const now = ctx.currentTime;
+    const tone = (freq: number, t0: number, dur: number) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'square';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0.18, t0);
+      g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+      o.connect(g).connect(ctx.destination);
+      o.start(t0);
+      o.stop(t0 + dur + 0.01);
+    };
+    tone(988, now, 0.08); // B5
+    tone(1318, now + 0.09, 0.16); // E6
+  }, [ensureCtx]);
+
+  /** Ascending arpeggio for menu confirm */
+  const playSelect = useCallback(() => {
+    if (mutedRef.current) return;
+    const ctx = ensureCtx();
+    const now = ctx.currentTime;
+    [659, 784, 988].forEach((f, i) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'square';
+      o.frequency.value = f;
+      const t0 = now + i * 0.04;
+      g.gain.setValueAtTime(0.16, t0);
+      g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.06);
+      o.connect(g).connect(ctx.destination);
+      o.start(t0);
+      o.stop(t0 + 0.07);
+    });
+  }, [ensureCtx]);
+
+  return useMemo(
+    () => ({
+      playPunch,
+      playWhoosh,
+      playStatic,
+      playClick,
+      playBlip,
+      playCoin,
+      playSelect,
+    }),
+    [playPunch, playWhoosh, playStatic, playClick, playBlip, playCoin, playSelect],
+  );
 }
