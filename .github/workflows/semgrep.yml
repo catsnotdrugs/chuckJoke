@@ -1,0 +1,19 @@
+name: Semgrep
+on:
+  pull_request: {}
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: '0 0 * * 0'   # weekly
+jobs:
+  semgrep:
+    name: semgrep/ci
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    if: github.actor != 'dependabot[bot]'
+    steps:
+      - uses: actions/checkout@v4
+      - run: semgrep ci
+        env:
+          SEMGREP_RULES: p/default
